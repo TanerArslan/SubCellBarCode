@@ -1,0 +1,18 @@
+Package: SubCellBarCode
+Type: Package
+Title: SubCellBarCode: Integrated workflow for robust mapping and visualizing whole human spatial proteome
+Version: 0.99.0
+Author: Taner Arslan
+Maintainer: Taner Arslan <taner.arslan@ki.se>
+Description: Mass-Spectrometry based spatial proteomics have enabled the proteome-wide mapping of protein subcellular localization (Orre et al. 2019, Molecular Cell). SubCellBarCode R package robustly classifies proteins into corresponding subcellular localization.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Depends: R  (>= 3.5)
+Suggests: knitr, 
+    rmarkdown, BiocStyle
+Imports:
+    Rtsne, scatterplot3d, caret, e1071, ggplot2, gridExtra, networkD3, ggrepel, graphics, stats
+biocViews: Proteomics, MassSpectrometry, Classification
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr

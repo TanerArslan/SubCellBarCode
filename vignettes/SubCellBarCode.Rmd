@@ -1,0 +1,440 @@
+---
+title: "SubCellBarCode: Integrated workflow for robust classification and 
+visualization of spatial proteome"
+author:
+- name: Taner Arslan
+  affiliation: "Karolinska Institute, Stockholm, Sweden"
+- name: Lukas Orre
+  affiliation: "Karolinska Institute, Stockholm, Sweden"
+- name: Mattias Vesterlund
+  affiliation: "Karolinska Institute, Stockholm, Sweden"
+- name: Yanbo Pan
+  affiliation: "Karolinska Institute, Stockholm, Sweden"
+- name: Janne Lehtio
+  affiliation: "Karolinska Institute, Stockholm, Sweden"
+date: "`r Sys.Date()`"
+output: 
+    BiocStyle::html_document:
+        toc_fload: true
+    BiocStyle::pdf_document: default   
+package: SubCellBarCode
+abstract: In the SubCellBarCode project, mass spectrometry (MS) 
+    based proteomics was used for proteome-wide mapping of protein 
+    subcellular localization (Orre et al. 2019, Molecular Cell). 
+    Subcellular fractionation and MS-based quantification can be 
+    reproduced following the methods described in Orre et al. 
+    Here, the SubCellBarCode R package offers tools to reproduce 
+    the underlying bioinformatics pipeline for robust classification 
+    and visualization of proteins into corresponding subcellular 
+    localizations. Moreover, the R-package can be used for differential 
+    localization analysis to investigate e.g. treatment induced protein 
+    relocalization, condition dependent localization or cell type 
+    specific localization.
+vignette: >
+    %\VignetteIndexEntry{SubCellBarCode R Markdown vignettes}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+                                                                                
+# Installation of the package
+
+                                                                                
+`SubCellBarCode` can be installed from github using `devtools` package:
+
+```{r installPackage, eval=FALSE}
+install.packages("devtools")
+library(devtools)
+install_github("TanerArslan/SubCellBarCode-R-Package")
+```
+
+# Load the package
+
+```{r Loadpackage}
+library(SubCellBarCode)
+```
+
+# Data preparation and classification 
+## Example Data
+As example data we here provide the publicly available HCC827 (human lung 
+adenocarcinoma cell line) TMT10plex labelled proteomics dataset 
+(*Orre et al.* 2019, Molecular Cell). The `data.frame` consists of 
+10480 proteins as rows (rownames must be gene 
+centric protein ids) and 5 fractions with duplicates as columns 
+(replicates should be named ".A." and ".B.", repectively). 
+                                                                                
+```{r exampleData}
+head(hcc827Ctrl)
+```
+
+## Marker Proteins
+The classification of protein localisation using the SubCellBarCode 
+method is dependent on 3365 marker proteins as defined in Orre et al. 
+The markerProteins `data.frame` contains protein names (gene symbol), 
+associated subcellular localization (compartment), color code for 
+the compartment and the median normalized fractionation
+profile (log2) based on five different human cell lines 
+(NCI-H322, HCC827, MCF7, A431and U251) here called the 
+“5CL marker profile”.
+
+
+```{r markerdata}
+head(markerProteins)
+```
+
+## Load and normalize data
+Input `data.frame` is checked with *"NA"* values and for the correct 
+format. If there is any *"NA"* value, corresponding row is deleted. 
+Then, data frame is `log2` transformmed. 
+
+```{r loadData}
+df <- loadData(protein.data = hcc827Ctrl)
+```
+
+
+```{r printDimData}
+print(dim(df))
+head(df)
+```
+
+## Calculate covered marker proteins
+The overlap between *marker proteins (3365)* and 
+*input data.frame* is calculated and visualized for each 
+compartment by a bar plot.    
+
+*Note that we recommend at least 20% coverage of marker proteins 
+for each compartment. If certain compartments are underrrepresented 
+we recommend you to perform the cell fractionation again. 
+If all compartments are low in coverage we recommend increasing 
+the analytical depth of the MS-analysis.* 
+
+```{r coverageMarkers}
+c.prots <- calculateCoveredProtein(proteinIDs = rownames(df), 
+                        markerproteins = markerProteins[,1]) 
+```
+                                                                                
+## Quality control of the marker proteins
+To avoid reduced classification accuracy, marker proteins with 
+noisy quantificationand marker proteins that are not representative 
+of their associated compartment (e.g.due to cell type specific 
+localization) are filtered out by a two-step quality control. 
+
+
+1. Marker proteins with pearson correlations 
+less than 0.8 between *A* and *B* duplicates for each cell line were 
+filtered out (Figure A).  
+
+2. Pairwise correlations between 5CL marker profile and input data for 
+each protein (A and B replicate experiments separately) were calculated 
+using both Pearson and Spearman correlation. The lowest value for each 
+method were then used for filtering with cut-offs set to 0.8 and 0.6 
+respectively, to exclude non-representative marker proteins (Figure B).
+
+```{r markerQC}
+r.markers <- markerQualityControl(coveredProteins = c.prots, protein.data = df)
+r.markers[1:5]
+```
+
+**Optional step:** After removing non-marker proteins, you can re-calculate 
+and visualize the final coverage of the marker proteins.
+
+```{r finalCoverage}
+# uncomment the function when running 
+# f.prots <- calculateCoveredProtein(r.markers, markerProteins[,1])
+```
+                                                                                
+## Visualization of marker proteins in t-SNE map
+The spatial distribution of the marker proteins is vizualized in 
+t-SNE map. This plot will be informative for the quality control 
+of the generated data as it offers evaluation of the spatial 
+distribution and separation of marker proteins. 
+
+
+```{r tsneparameter}
+#Default parameters
+#Output dimensionality
+#dims = 3
+#Speed/accuracy trade-off (increase for less accuracy) 
+#theta = c(0.1, 0.2, 0.3, 0.4, 0.5)
+#Perplexity parameter
+#perplexity = c(5, 10, 20, 30, 40, 50, 60) 
+```
+
+Information about the different t-SNE parameters that can be 
+modified by the user is available by typing `?Rtsne` in the console.    
+Although the applications of t-SNE is widespread in the field 
+of machine learning, it can be misleading if it is not well 
+optimized. Therefore, we optimize t-SNE map by grid search, 
+a process that can take some time 
+
+```{r tsnedim3, fig.width = 6.5, fig.height = 6.5}
+set.seed(6)
+tsne.map <- tsneVisualization(protein.data = df, 
+                    markerProteins = r.markers, 
+                    dims = 3, 
+                    theta = c(0.1, 0.2, 0.3, 0.4, 0.5), 
+                    perplexity = c(5, 10, 20, 30, 40, 50, 60)) 
+```
+
+We recommend 3D vizualisation by setting `dims = 3`, 
+for optimal evaluation of marker protein cluster separation 
+and data modularity. You can also visualize the marker 
+proteins in 2 dimensional space by setting `dims = 2`, although 
+reducing the dimensionality results in loss of information and 
+underestimation of data resolution. 
+
+
+```{r tsnedim2}
+set.seed(9)
+tsne.map2 <- tsneVisualization(protein.data = df, 
+                    markerProteins = r.markers, 
+                    dims = 2, 
+                    theta = c(0.1, 0.2, 0.3, 0.4, 0.5), 
+                    perplexity = c(5, 10, 20, 30, 40, 50, 60))
+```
+
+## Build model and classify proteins
+For replicate *A* and *B* separately, marker proteins are 
+used for training a Support Vector Machine (SVM) classifier 
+with a Gaussian radial basis function kernel algorithm. 
+After tuning the parameters, the SVM model predicts (classifies) 
+the subcellular localization for all proteins in the input 
+data with corresponding probabilities for *A* and *B* replicate 
+classification.
+
+
+```{r buildSVM}
+set.seed(2)
+cls <- svmClassification(markerProteins = r.markers, 
+                                    protein.data = df, 
+                                    markerprot.df = markerProteins)
+```
+
+```{r testdata}
+# testing data predictions for replicate A and B
+test.A <- cls[[1]]$svm.test.prob.out
+test.B <- cls[[2]]$svm.test.prob.out
+head(test.A)
+```
+
+```{r allPred}
+# all predictions for replicate A and B
+all.A <- cls[[1]]$all.prot.pred
+all.B <- cls[[2]]$all.prot.pred
+```
+                                                                                
+### Estimate classification thresholds for compartment level
+Classification probabilities close to 1 indicate high confidence 
+predictions, whereas probabilities close to 0 indicate low 
+confidence predictions. To increase the overal prediction accuracy 
+and to filter out poor predictions, one criterion and 
+two cut-offs are defined.
+
+1. The criterion is the consensus of preliminary predictions 
+between biological duplicates. Proteins are kept in the analysis, 
+if there is an agreement between biological duplicates. 
+Subsequently, prediction probabilities from the two 
+duplicates are averaged for each protein.  
+
+2. Cut-off is (precision - based) set when precision reach 0.9 
+in the test data.  
+
+3. Cut-off is (recall - based) set as the probability of the 
+lowest true positive in the test data.
+
+```{r compartmentThreshold}
+t.c.df <- computeThresholdCompartment(test.repA = test.A, test.repB = test.B)
+```
+
+```{r headcompartmentThreshold}
+head(t.c.df)
+```
+
+### Apply threshold to compartment level classifications
+The determined thresholds for the compartment levels are applied 
+to all classifications.
+
+```{r applycompartmentThreshold}
+c.cls.df <- applyThresholdCompartment(all.repA = all.A, all.repB = all.B,
+                                    threshold.df = t.c.df)
+```
+
+```{r headcompartmentCls}
+head(c.cls.df)
+```
+
+### Estimate classification thresholds for neighborhood level
+Compartment level classification probabilities are summed to 
+neighborhood probabilities and thresholds for neighborhood 
+analysis are estimated as described above for compartment 
+level analysis except precision based cut-off is set to 0.95.  
+
+```{r neighborhoodThreshold}
+t.n.df <- computeThresholdNeighborhood(test.repA = test.A, test.repB = test.B)
+```
+
+```{r headneighborhoodThreshold}
+head(t.n.df)
+```
+
+### Apply threshold to neighborhood level classifications
+The determined thresholds for the neighborhood levels are applied to all 
+classifications.
+
+```{r applyNeighborhoodThreshold}
+n.cls.df <- applyThresholdNeighborhood(all.repA = all.A, all.repB = all.B, 
+                                    threshold.df = t.n.df)
+```
+
+```{r headNeighborhoodCls}
+head(n.cls.df)
+```
+
+### Merge compartment and neighborhood classification
+Individual classifications (compartment and neighborhood) are merged 
+into one data frame. 
+
+```{r mergecls}
+cls.df <- mergeCls(compartmentCls = c.cls.df, neighborhoodCls = n.cls.df)
+```
+
+```{r headmerge}
+head(cls.df)
+```
+
+# Vizualization of the protein subcellular localization
+## SubCellBarCode plot
+You can query one protein at a time to plot barcode of the protein 
+of the interest.    
+
+`PSM` (Peptide-spectra-matching) count table is required for the plotting
+SubCellBarCode. It is in `data.frame` format;
+
+```{r hcc827psmcount}
+head(hcc827CtrlPSMCount)
+```
+
+```{r plotbarcode, fig.width = 6, fig.height = 6}
+plotBarcode(sampleClassification = cls.df, protein = "TP53",
+            s1PSM = hcc827CtrlPSMCount)
+```
+
+## Co-localization plot
+To evaluate localization and of multiple proteins at 
+the same time, a vector of proteins (identified by gene symbols) 
+can be prepared and used to create a barplot showing the 
+distribution of classifications across compartments and 
+neighborhoods. This analysis could be helpful when 
+evaluating co-localization of proteins, protein complex 
+formation and compartmentalized protein level regulation.
+
+
+```{r multipleprots, fig.width= 10, fig.height = 8}
+# 26S proteasome complex (26s proteasome regulatory complex)
+proteasome26s <- c("PSMA7", "PSMC3", "PSMB1", "PSMA1", "PSMA3",
+"PSMA4", "PSMA5", "PSMB4", "PSMB6", "PSMB5", "PSMC2","PSMC4","PSMB3", 
+"PSMB2", "PSMD4","PSMA6","PSMC1","PSMC5","PSMC6","PSMB7","PSMD13")
+
+plotMultipleProtein(sampleClassification = cls.df, proteinList = proteasome26s)
+```
+
+# Differential localization analysis
+Regulation of  protein localization is a the key 
+process in cellular signalling. The `SubCellBarCode` 
+method can be used for differential localization analysis 
+given two conditions such as control vs treatment, cancer
+cell *vs* normal cell, cell state A *vs* cell state B, *etc*. 
+As example, we compared untreated and gefitinib (EGFR inhibitor) 
+treated HCC827 cells (for details, see Orre et al.). 
+
+## Identify differentially localizing proteins
+Neighborhood classifications  for condition 1 (untreated) and 
+condition 2 (gefitinib) is first done separately, and 
+classifications for overlapping proteins are then vizualized by a 
+sankey plot.     
+*The HCC827 gefitinib cell lines classification was embedded 
+into the package for example analysis.*
+
+
+```{r headHCC827GEFCls}
+head(hcc827GEFClass)
+```
+
+```{r sankey, fig.width = 6, fig.height = 3}
+sankeyPlot(sampleCls1 = cls.df, sampleCls2 = hcc827GEFClass)
+```
+
+## Filter Candidates
+As the differential localization analysis is an outlier analysis, 
+it will include analytical noise. To filter out such noise, 
+`PSM` (Peptide-spectra-matching) counts and fractionation profile 
+correlation analysis (Pearson) was done to identify strong 
+candidates. The PSM count format for the input have to be the 
+same between the compared conditions;
+
+
+```{r headPSMCount}
+head(hcc827CtrlPSMCount)
+```
+
+For each protein, the minimum PSM count between the two conditions 
+is plotted against the fractionation profile (median) correlation 
+between the two conditions. For proteins with different localizations 
+between conditions, the fractionation profile differs and therefore 
+we are expecting a low fractionation profile correlation. A standard 
+setting for filtering of analytical noise in the differential 
+localization analysis could be to demand a fractionation profile 
+correlation below 0.8, and a minimum PSM count of at least 3.
+
+```{r relocation parameters}
+##parameters
+#sampleCls1 = sample 1 classification output
+#s1PSM = sample 2 PSM count
+#s1Quant = Sample 1 Quantification data
+#sampleCls2 = sample 2 classification output
+#s2PSM = sample 2 classification output
+#sample2Quant = Sample 2 Quantification data           
+```
+
+```{r strongCandidates}
+candidate.df <- candidateRelocatedProteins(sampleCls1 = cls.df, 
+                                s1PSM = hcc827CtrlPSMCount, 
+                                s1Quant = hcc827Ctrl,
+                                sampleCls2 = hcc827GEFClass,
+                                s2PSM = hcc827GefPSMCount,
+                                s2Quant = hcc827GEF)
+```
+
+```{r printdim}
+print(dim(candidate.df))
+```
+
+```{r printhead}
+head(candidate.df)
+```
+
+Candidate subset of differentially localizing proteins can 
+be annotated with names by setting `annotation = TRUE`, `min.psm` 
+and `pearson.cor` 
+
+```{r strongCandidatesLabel}
+candidate2.df <- candidateRelocatedProteins(sampleCls1 = cls.df,
+                                s1PSM = hcc827CtrlPSMCount, 
+                                s1Quant = hcc827Ctrl, 
+                                sampleCls2 = hcc827GEFClass, 
+                                s2PSM = hcc827GefPSMCount, 
+                                s2Quant = hcc827GEF, 
+                                annotation = TRUE, 
+                                min.psm = 10, 
+                                pearson.cor = 0.1) 
+```
+
+# References
+
+* Orre., et al. "SubCellBarCode: Proteome-wide Mapping of Protein 
+Localization and Relocalization." Molecular Cell (2019): 73(1):166-182.e7. 
+
+# Session Information
+
+```{r}
+sessionInfo()
+```

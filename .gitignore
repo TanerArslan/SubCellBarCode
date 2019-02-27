@@ -1,0 +1,8 @@
+.DS_Store
+.project
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+SubCellBarCode.Rproj
+.Rbuildignore
