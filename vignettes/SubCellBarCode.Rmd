@@ -44,7 +44,7 @@ vignette: >
 ```{r installPackage, eval=FALSE}
 install.packages("devtools")
 library(devtools)
-install_github("TanerArslan/SubCellBarCode-R-Package")
+install_github("TanerArslan/SubCellBarCode")
 ```
 
 # Load the package
