@@ -172,7 +172,7 @@ tsne.map <- tsneVisualization(protein.data = df,
                     markerProteins = r.markers, 
                     dims = 3, 
                     theta = c(0.1, 0.2, 0.3, 0.4, 0.5), 
-                    perplexity = c(5, 10, 20, 30, 40, 50, 60)) 
+                   perplexity = c(5, 10, 20, 30, 40, 50, 60)) 
 ```
 
 We recommend 3D vizualisation by setting `dims = 3`, 
@@ -383,7 +383,9 @@ between conditions, the fractionation profile differs and therefore
 we are expecting a low fractionation profile correlation. A standard 
 setting for filtering of analytical noise in the differential 
 localization analysis could be to demand a fractionation profile 
-correlation below 0.8, and a minimum PSM count of at least 3.
+correlation below 0.8, and a minimum PSM count of at least 3.   
+However, for the potential exploratory analysis, you can adjust
+the `min.psm` and `pearson.cor` parameters. 
 
 ```{r relocation parameters}
 ##parameters
@@ -392,7 +394,9 @@ correlation below 0.8, and a minimum PSM count of at least 3.
 #s1Quant = Sample 1 Quantification data
 #sampleCls2 = sample 2 classification output
 #s2PSM = sample 2 classification output
-#sample2Quant = Sample 2 Quantification data           
+#sample2Quant = Sample 2 Quantification data
+#min.psm = minumum psm count
+#pearson.cor = perason correlation coefficient
 ```
 
 ```{r strongCandidates}
@@ -401,7 +405,9 @@ candidate.df <- candidateRelocatedProteins(sampleCls1 = cls.df,
                                 s1Quant = hcc827Ctrl,
                                 sampleCls2 = hcc827GEFClass,
                                 s2PSM = hcc827GefPSMCount,
-                                s2Quant = hcc827GEF)
+                                s2Quant = hcc827GEF,
+                                min.psm = 2,
+                                pearson.cor = 0.8)
 ```
 
 ```{r printdim}
@@ -424,8 +430,8 @@ candidate2.df <- candidateRelocatedProteins(sampleCls1 = cls.df,
                                 s2PSM = hcc827GefPSMCount, 
                                 s2Quant = hcc827GEF, 
                                 annotation = TRUE, 
-                                min.psm = 10, 
-                                pearson.cor = 0.1) 
+                                min.psm = 9, 
+                                pearson.cor = 0.05) 
 ```
 
 # References

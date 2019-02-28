@@ -32,8 +32,8 @@
 #'@return candidate.df
 
 candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
-                                s2PSM, s2Quant, annotation = FALSE, min.psm,
-                                pearson.cor){
+                                s2PSM, s2Quant, annotation = FALSE, min.psm = 2,
+                                pearson.cor = 0.8){
 
     # just keep neighborhood classification
     df1 <- sampleCls1[, seq_len(2)]
@@ -88,8 +88,10 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
                     color = Relocalization))+
             geom_point(size = 2) +
             scale_colour_manual(values=c("Black","steelblue1")) +
-            geom_hline(yintercept = 0.8, linetype="dashed", color = "red") +
-            geom_vline(xintercept = 1.3, linetype="dashed", color = "red") +
+            geom_hline(yintercept = pearson.cor,
+                        linetype="dashed", color = "red") +
+            geom_vline(xintercept = log2(min.psm),
+                        linetype="dashed", color = "red") +
             theme_bw() +
             theme(text = element_text(size = 16),
                     axis.text.x = element_text(face = "bold", color="black"),
@@ -101,8 +103,8 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
         f.df <- f.df[f.df$Relocated == "Relocated", ]
 
         candidate.df <- f.df[,c(seq_len(5))]
-        candidate.df <- candidate.df[candidate.df$Pearson.Corr < 0.8 &
-                                        candidate.df$Min.PSMs > 2, ]
+        candidate.df <- candidate.df[candidate.df$Pearson.Corr < pearson.cor &
+                                        candidate.df$Min.PSMs > min.psm, ]
 
     }else{
 
@@ -126,8 +128,10 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
                 geom_point(size = 2) +
                 geom_text_repel() +
                 scale_colour_manual(values=c("Black","steelblue1")) +
-                geom_hline(yintercept = 0.8, linetype="dashed", color = "red") +
-                geom_vline(xintercept = 1.3, linetype="dashed", color = "red") +
+                geom_hline(yintercept = pearson.cor,
+                            linetype="dashed", color = "red") +
+                geom_vline(xintercept = log2(min.psm),
+                            linetype="dashed", color = "red") +
                 theme_bw() +
                 theme(text = element_text(size = 16),
                     axis.text.x = element_text(face = "bold", color="black"),
@@ -139,8 +143,8 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
         annot.df <- annot.df[annot.df$Relocated == "Relocated", ]
 
         candidate.df <- annot.df[, c(seq_len(5))]
-        candidate.df <- candidate.df[candidate.df$Pearson.Corr < 0.8 &
-                                        candidate.df$Min.PSMs > 2, ]
+        candidate.df <- candidate.df[candidate.df$Pearson.Corr < pearson.cor &
+                                        candidate.df$Min.PSMs > min.psm, ]
 
     }
 }
