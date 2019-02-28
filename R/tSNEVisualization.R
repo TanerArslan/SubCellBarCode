@@ -15,12 +15,12 @@
 #'
 #'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 #'
-#'r.markers <- markerQualityControl(c.prots, df)
-#'
+#'set.seed(21)
 #'tsneMap.df <- tsneVisualization(protein.data = df,
-#'markerProteins = r.markers,
-#'dims = 3, theta = c(0.4), perplexity = c(50))
+#'markerProteins = c.prots[1:30],
+#'dims = 2, theta = c(0.4), perplexity = c(5))
 #'}
+#'
 #'@import Rtsne
 #'@import scatterplot3d
 #'@importFrom graphics legend

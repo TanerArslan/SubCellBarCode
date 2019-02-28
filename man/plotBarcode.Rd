@@ -29,9 +29,9 @@ df <- loadData(SubCellBarCode::hcc827Ctrl)
 
 c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 
-r.markers <- markerQualityControl(c.prots, df)
+set.seed(1)
 
-cls <- svmClassification(r.markers, df, markerProteins)
+cls <- svmClassification(c.prots[1:700], df, markerProteins)
 
 test.A <- cls[[1]]$svm.test.prob.out
 test.B <- cls[[2]]$svm.test.prob.out
@@ -49,6 +49,6 @@ n.cls.df <- applyThresholdNeighborhood(all.A, all.B, t.n.df)
 
 cls.df <- mergeCls(c.cls.df, n.cls.df)
 
-proteinPlot <- plotBarcode(cls.df, "TP53", hcc827CtrlPSMCount)
+proteinPlot <- plotBarcode(cls.df, "AAED1", hcc827CtrlPSMCount)
 }
 }

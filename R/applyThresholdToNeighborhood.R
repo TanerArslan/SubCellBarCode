@@ -16,9 +16,9 @@
 #'
 #'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 #'
-#'r.markers <- markerQualityControl(c.prots, df)
+#'set.seed(1)
 #'
-#'cls <- svmClassification(r.markers, df, markerProteins)
+#'cls <- svmClassification(c.prots[1:700], df, markerProteins)
 #'
 #'test.A <- cls[[1]]$svm.test.prob.out
 #'test.B <- cls[[2]]$svm.test.prob.out

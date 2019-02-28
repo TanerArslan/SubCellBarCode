@@ -24,35 +24,13 @@ compartment and neighborhood level are plotted.
 \examples{
 {
 
-df <- loadData(SubCellBarCode::hcc827Ctrl)
-
-c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
-
-r.markers <- markerQualityControl(c.prots, df)
-
-cls <- svmClassification(r.markers, df, markerProteins)
-
-test.A <- cls[[1]]$svm.test.prob.out
-test.B <- cls[[2]]$svm.test.prob.out
-
-t.c.df <- computeThresholdCompartment(test.A, test.B)
-
-t.n.df <- computeThresholdNeighborhood(test.A, test.B)
-
-all.A <- cls[[1]]$all.prot.pred
-all.B <- cls[[2]]$all.prot.pred
-
-c.cls.df <- applyThresholdCompartment(all.A, all.B, t.c.df)
-
-n.cls.df <- applyThresholdNeighborhood(all.A, all.B, t.n.df)
-
-cls.df  <- mergeCls(c.cls.df, n.cls.df)
-
 proteasome26s <- c("PSMA7", "PSMC3", "PSMB1", "PSMA1", "PSMA3","PSMA4",
 "PSMA5", "PSMB4", "PSMB6", "PSMB5","PSMC2", "PSMC4", "PSMB3", "PSMB2",
 "PSMD4", "PSMA6", "PSMC1", "PSMC5", "PSMC6", "PSMB7", "PSMD13")
 
-multipleProt.df <- plotMultipleProtein(cls.df, "proteasome26s" )
+exp.cls.df <- SubCellBarCode::hcc827GEFClass
+
+multipleProt.df <- plotMultipleProtein(exp.cls.df, proteasome26s )
 
 }
 }

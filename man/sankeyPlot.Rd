@@ -14,7 +14,7 @@ combination of compartment and neighborhood classification.}
 combination of compartment and neighborhood classification.}
 }
 \value{
-sankeyData
+label.link.df
 }
 \description{
 Identify candidate condition-dependent relocated
@@ -23,31 +23,9 @@ proteins by comparing neighborhood classifications.
 \examples{
 {
 
-df <- loadData(SubCellBarCode::hcc827Ctrl)
+exp.cls.df <- SubCellBarCode::hcc827GEFClass
 
-c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
-
-r.markers <- markerQualityControl(c.prots, df)
-
-cls <- svmClassification(r.markers, df, markerProteins)
-
-test.A <- cls[[1]]$svm.test.prob.out
-test.B <- cls[[2]]$svm.test.prob.out
-
-t.c.df <- computeThresholdCompartment(test.A, test.B)
-
-t.n.df <- computeThresholdNeighborhood(test.A, test.B)
-
-all.A <- cls[[1]]$all.prot.pred
-all.B <- cls[[2]]$all.prot.pred
-
-c.cls.df <- applyThresholdCompartment(all.A, all.B, t.c.df)
-
-n.cls.df <- applyThresholdNeighborhood(all.A, all.B, t.n.df)
-
-cls.df  <- mergeCls(c.cls.df, n.cls.df)
-
-sankeyData <- sankeyPlot(cls.df, hcc827GEFClass)
+sankeyData <- sankeyPlot(exp.cls.df, exp.cls.df)
 
 }
 }

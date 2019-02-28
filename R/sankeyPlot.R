@@ -8,35 +8,13 @@
 #'@export
 #'@examples {
 #'
-#'df <- loadData(SubCellBarCode::hcc827Ctrl)
+#'exp.cls.df <- SubCellBarCode::hcc827GEFClass
 #'
-#'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
-#'
-#'r.markers <- markerQualityControl(c.prots, df)
-#'
-#'cls <- svmClassification(r.markers, df, markerProteins)
-#'
-#'test.A <- cls[[1]]$svm.test.prob.out
-#'test.B <- cls[[2]]$svm.test.prob.out
-#'
-#'t.c.df <- computeThresholdCompartment(test.A, test.B)
-#'
-#'t.n.df <- computeThresholdNeighborhood(test.A, test.B)
-#'
-#'all.A <- cls[[1]]$all.prot.pred
-#'all.B <- cls[[2]]$all.prot.pred
-#'
-#'c.cls.df <- applyThresholdCompartment(all.A, all.B, t.c.df)
-#'
-#'n.cls.df <- applyThresholdNeighborhood(all.A, all.B, t.n.df)
-#'
-#'cls.df  <- mergeCls(c.cls.df, n.cls.df)
-#'
-#'sankeyData <- sankeyPlot(cls.df, hcc827GEFClass)
+#'sankeyData <- sankeyPlot(exp.cls.df, exp.cls.df)
 #'
 #'}
 #'@import networkD3
-#'@return sankeyData
+#'@return label.link.df
 
 
 sankeyPlot <- function(sampleCls1, sampleCls2){
@@ -62,6 +40,23 @@ sankeyPlot <- function(sampleCls1, sampleCls2){
 
     neighborhoods2 <- c("Secretory", "Nuclear", "Cytosol", "Mitochondria")
     label.neigh2 <- c(4, 5, 6, 7)
+
+    # summarize using neighborhoods labels
+    sourceTarget <- lapply(neighborhoods, function(n1){
+        temp.n1.df <- df[df$C.A == n1, ]
+
+        results <- lapply(neighborhoods2, function(n2){
+            temp.n2.df <- temp.n1.df[temp.n1.df$C.B == n2, ]
+            values <- list(Cond1 = n1,
+                           Cond2 = n2,
+                           value = nrow(temp.n2.df))
+        })
+        result.df <- data.frame(do.call(rbind.data.frame, results))
+    })
+
+    label.link.df <- link.df <- do.call("rbind", sourceTarget)
+    rownames(label.link.df) <- seq_len(nrow(label.link.df))
+    print(label.link.df)
 
     # summarize neighborhood to neighborhood localization
     sourceTarget <- lapply(seq_len(4), function(n1){
@@ -93,7 +88,6 @@ sankeyPlot <- function(sampleCls1, sampleCls2){
     sankeyNodes <- data.frame(neigh.names, id, group)
 
     sankeyData <- list(sankeyNodes, link.df)
-    print(sankeyData)
 
     # plot sankey plot
     networkD3::sankeyNetwork(Links = link.df,

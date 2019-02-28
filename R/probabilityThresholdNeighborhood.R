@@ -12,9 +12,9 @@
 #'
 #'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 #'
-#'r.markers <- markerQualityControl(c.prots, df)
+#'set.seed(1)
 #'
-#'cls <- svmClassification(r.markers, df, markerProteins)
+#'cls <- svmClassification(c.prots[1:700], df, markerProteins)
 #'
 #'test.A <- cls[[1]]$svm.test.prob.out
 #'test.B <- cls[[2]]$svm.test.prob.out
@@ -105,7 +105,7 @@ computeThresholdNeighborhood <- function(test.repA, test.repB){
     results <- lapply(cls.levels, function(l){
         cls.df <- combined.rep.A.B[combined.rep.A.B$svm.pred == l, ]
         cls.obs.df <- neighborhood.repA[neighborhood.repA$Observation == l, ]
-        parameters <- lapply(seq(0, 1, 0.001), function(t){
+        parameters <- lapply(seq(0, 1, 0.002), function(t){
             u.df <- cls.df[cls.df[l] >= t, ]
             p.cls <- sum(u.df$Observation == u.df$svm.pred)/nrow(u.df)
             cls.down.df <- cls.df[cls.df[l] < t,]

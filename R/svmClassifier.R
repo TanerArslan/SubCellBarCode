@@ -13,9 +13,8 @@
 #'
 #'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 #'
-#'r.markers <- markerQualityControl(c.prots, df)
-#'
-#'cls <- svmClassification(r.markers, df, markerProteins)
+#'set.seed(1)
+#'cls <- svmClassification(c.prots[1:700], df, markerProteins)
 #'
 #'}
 #'@import caret
