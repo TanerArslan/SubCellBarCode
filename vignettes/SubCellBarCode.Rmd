@@ -10,7 +10,7 @@ author:
   affiliation: "Karolinska Institute, Stockholm, Sweden"
 - name: Yanbo Pan
   affiliation: "Karolinska Institute, Stockholm, Sweden"
-- name: Janne Lehtio
+- name: Janne Lehtiö
   affiliation: "Karolinska Institute, Stockholm, Sweden"
 date: "`r Sys.Date()`"
 output: 
