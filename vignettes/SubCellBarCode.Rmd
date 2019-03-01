@@ -380,11 +380,11 @@ For each protein, the minimum PSM count between the two conditions
 is plotted against the fractionation profile (median) correlation 
 between the two conditions. For proteins with different localizations 
 between conditions, the fractionation profile differs and therefore 
-we are expecting a low fractionation profile correlation. A standard 
+we are expecting a low fractionation profile correlation. As a standard 
 setting for filtering of analytical noise in the differential 
-localization analysis could be to demand a fractionation profile 
+localization analysis we suggest to demand a fractionation profile 
 correlation below 0.8, and a minimum PSM count of at least 3.   
-However, for the potential exploratory analysis, you can adjust
+However, for the exploratory analysis, you can adjust
 the `min.psm` and `pearson.cor` parameters. 
 
 ```{r relocation parameters}
