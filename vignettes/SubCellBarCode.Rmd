@@ -151,6 +151,7 @@ distribution and separation of marker proteins.
 
 ```{r tsneparameter}
 #Default parameters
+#Run the broad-range parameters to optimize well !!!
 #Output dimensionality
 #dims = 3
 #Speed/accuracy trade-off (increase for less accuracy) 
@@ -171,8 +172,8 @@ set.seed(6)
 tsne.map <- tsneVisualization(protein.data = df, 
                     markerProteins = r.markers, 
                     dims = 3, 
-                    theta = c(0.1, 0.2, 0.3, 0.4, 0.5), 
-                   perplexity = c(5, 10, 20, 30, 40, 50, 60)) 
+                    theta = c(0.1), 
+                    perplexity = c(60)) 
 ```
 
 We recommend 3D vizualisation by setting `dims = 3`, 
@@ -188,8 +189,8 @@ set.seed(9)
 tsne.map2 <- tsneVisualization(protein.data = df, 
                     markerProteins = r.markers, 
                     dims = 2, 
-                    theta = c(0.1, 0.2, 0.3, 0.4, 0.5), 
-                    perplexity = c(5, 10, 20, 30, 40, 50, 60))
+                    theta = c(0.5), 
+                    perplexity = c(60))
 ```
 
 ## Build model and classify proteins

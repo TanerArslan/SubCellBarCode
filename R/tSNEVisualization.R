@@ -56,11 +56,20 @@ tsneVisualization <- function(protein.data, markerProteins, dims,
 
         message("Optimization was performed.")
 
+        #get the optimization parameters
+        theta.val <- as.numeric(paste(0,
+                        as.character(min.theta.perp[2]), sep = "."))
+
+        perplexity.val <- as.numeric(min.theta.perp[1])
+
+        message(sprintf("Theta value: %s", theta.val))
+        message(sprintf("Perplexity value: %s", perplexity.val))
+
+
         rtsne.map <- Rtsne::Rtsne(tsne.df,
                         dims = 3,
-                        theta=as.numeric(paste(0,
-                            as.character(min.theta.perp[2]), sep = ".")),
-                        perplexity=as.numeric(min.theta.perp[1]))
+                        theta= theta.val,
+                        perplexity = perplexity.val)
 
 
         #plot 3D tsne-map
@@ -77,7 +86,7 @@ tsneVisualization <- function(protein.data, markerProteins, dims,
                 legend = c("S1", "S2", "S3", "S4","N1", "N2", "N3", "N4",
                             "C1", "C2", "C3", "C4", "C5", "M1", "M2"),
                 pch = 16,
-                cex = 0.85,
+                cex = 0.75,
                 col = c("gold", "orange", "salmon", "tomato2",
                         "grey90","grey70", "grey50", "grey30",
                         "lightblue", "aquamarine", "cyan", "deepskyblue2",
@@ -92,7 +101,7 @@ tsneVisualization <- function(protein.data, markerProteins, dims,
                 legend = c("S1", "S2", "S3", "S4","N1", "N2", "N3", "N4",
                             "C1", "C2", "C3", "C4", "C5", "M1", "M2"),
                 pch = 16,
-                cex = 0.85,
+                cex = 0.75,
                 col = c("gold", "orange", "salmon", "tomato2",
                         "grey90", "grey70", "grey50", "grey30",
                         "lightblue","aquamarine", "cyan","deepskyblue2",
@@ -107,7 +116,7 @@ tsneVisualization <- function(protein.data, markerProteins, dims,
                 legend = c("S1", "S2", "S3", "S4","N1", "N2", "N3", "N4",
                             "C1", "C2", "C3", "C4", "C5", "M1", "M2"),
                 pch = 16,
-                cex = 0.85,
+                cex = 0.75,
                 col = c("gold", "orange", "salmon", "tomato2",
                         "grey90", "grey70", "grey50", "grey30",
                         "lightblue", "aquamarine", "cyan", "deepskyblue2",
@@ -135,11 +144,18 @@ tsneVisualization <- function(protein.data, markerProteins, dims,
 
         message("Optimization was performed.")
 
+        #get the optimization parameters
+        theta.val <- as.numeric(paste(0,
+                        as.character(min.theta.perp[2]), sep = "."))
+
+        perplexity.val <- as.numeric(min.theta.perp[1])
+
+        message(sprintf("Theta value: %s", theta.val))
+        message(sprintf("Perplexity value: %s", perplexity.val))
         rtsne.map <- Rtsne::Rtsne(tsne.df,
                         dims = 2,
-                        theta=as.numeric(paste(0,
-                            as.character(min.theta.perp[2]), sep = ".")),
-                        perplexity=as.numeric(min.theta.perp[1]))
+                        theta = theta.val,
+                        perplexity = perplexity.val)
 
         #plot 2D tsne-map
         d <- data.frame(x=rtsne.map$Y[, 1],
