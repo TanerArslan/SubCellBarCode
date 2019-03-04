@@ -17,7 +17,7 @@
 #'
 #'set.seed(21)
 #'tsneMap.df <- tsneVisualization(protein.data = df,
-#'markerProteins = c.prots[1:30],
+#'markerProteins = c.prots[1:20],
 #'dims = 2, theta = c(0.4), perplexity = c(5))
 #'}
 #'

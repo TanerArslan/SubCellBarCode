@@ -9,7 +9,7 @@
 #'@export
 #'@examples {
 #'
-#'df <- loadData(SubCellBarCode::hcc827Ctrl)
+#'df <- loadData(SubCellBarCode::hcc827Ctrl[1:10,])
 #'}
 #'@return protein.data.df
 

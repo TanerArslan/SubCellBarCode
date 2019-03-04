@@ -12,7 +12,7 @@
 #'
 #'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 #'
-#'r.markers <- markerQualityControl(c.prots[1:10], df)
+#'r.markers <- markerQualityControl(c.prots[1:5], df)
 #'}
 #' @import ggplot2
 #' @import gridExtra
