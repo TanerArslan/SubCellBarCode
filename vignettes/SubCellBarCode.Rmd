@@ -138,7 +138,7 @@ r.markers[1:5]
 and visualize the final coverage of the marker proteins.
 
 ```{r finalCoverage}
-# uncomment the function when running 
+## uncomment the function when running 
 # f.prots <- calculateCoveredProtein(r.markers, markerProteins[,1])
 ```
                                                                                 
