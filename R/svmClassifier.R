@@ -13,8 +13,8 @@
 #'
 #'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 #'
-#'set.seed(5)
-#'c.prots <- sample(c.prots, 450)
+#'set.seed(7)
+#'c.prots <- sample(c.prots, 365)
 #'cls <- svmClassification(c.prots, df, markerProteins)
 #'
 #'}
