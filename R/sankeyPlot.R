@@ -48,8 +48,8 @@ sankeyPlot <- function(sampleCls1, sampleCls2){
         results <- lapply(neighborhoods2, function(n2){
             temp.n2.df <- temp.n1.df[temp.n1.df$C.B == n2, ]
             values <- list(Cond1 = n1,
-                           Cond2 = n2,
-                           value = nrow(temp.n2.df))
+                            Cond2 = n2,
+                            value = nrow(temp.n2.df))
         })
         result.df <- data.frame(do.call(rbind.data.frame, results))
     })

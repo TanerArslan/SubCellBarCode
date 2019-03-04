@@ -26,8 +26,10 @@
 #'@importFrom graphics legend
 #'@return tsneMap.df
 
-tsneVisualization <- function(protein.data, markerProteins, dims,
-                                theta, perplexity){
+tsneVisualization <- function(protein.data,
+                                markerProteins, dims,
+                                theta,
+                                perplexity){
 
     tsne.df <- protein.data[markerProteins, ]
     annotation.df <- SubCellBarCode::markerProteins[rownames(tsne.df), ]
