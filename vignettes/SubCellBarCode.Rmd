@@ -96,6 +96,12 @@ print(dim(df))
 head(df)
 ```
 
+For the downstream analysis, we used the randomly selected subset data. 
+```{r subset data}
+set.seed(2)
+df <- df[sample(nrow(df), 6000),]
+```
+
 ## Calculate covered marker proteins
 The overlap between *marker proteins (3365)* and 
 *input data.frame* is calculated and visualized for each 
@@ -204,7 +210,7 @@ classification.
 
 
 ```{r buildSVM}
-set.seed(2)
+set.seed(4)
 cls <- svmClassification(markerProteins = r.markers, 
                                     protein.data = df, 
                                     markerprot.df = markerProteins)
@@ -331,9 +337,9 @@ formation and compartmentalized protein level regulation.
 
 ```{r multipleprots, fig.width= 10, fig.height = 8}
 # 26S proteasome complex (26s proteasome regulatory complex)
-proteasome26s <- c("PSMA7", "PSMC3", "PSMB1", "PSMA1", "PSMA3",
-"PSMA4", "PSMA5", "PSMB4", "PSMB6", "PSMB5", "PSMC2","PSMC4","PSMB3", 
-"PSMB2", "PSMD4","PSMA6","PSMC1","PSMC5","PSMC6","PSMB7","PSMD13")
+proteasome26s <- c("PSMA7", "PSMC3","PSMA4", "PSMB4", 
+                    "PSMB6", "PSMB5", "PSMC2","PSMC4",
+                    "PSMB3", "PSMA6","PSMC5","PSMC6")
 
 plotMultipleProtein(sampleClassification = cls.df, proteinList = proteasome26s)
 ```
