@@ -32,7 +32,7 @@ df <- loadData(SubCellBarCode::hcc827Ctrl)
 c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 
 set.seed(7)
-c.prots <- sample(c.prots, 365)
+c.prots <- sample(c.prots, 500)
 cls <- svmClassification(c.prots, df, markerProteins)
 
 test.A <- cls[[1]]$svm.test.prob.out
@@ -43,6 +43,6 @@ t.n.df <- computeThresholdNeighborhood(test.A, test.B)
 all.A <- cls[[1]]$all.prot.pred
 all.B <- cls[[2]]$all.prot.pred
 
-n.cls.df <- applyThresholdNeighborhood(all.A[1:300,],all.B[1:300,],t.n.df)
+n.cls.df <- applyThresholdNeighborhood(all.A[1:150,],all.B[1:150,],t.n.df)
 }
 }

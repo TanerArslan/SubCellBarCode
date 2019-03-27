@@ -7,21 +7,29 @@
 #'@export
 #'@examples {
 #'
-#'df <- loadData(SubCellBarCode::hcc827Ctrl)
+#'#create mock data
+#'df <- data.frame(Protein = "TP53",
+#'svm.pred = "N1",
+#'S1 = as.numeric(0.02),
+#'S2 = as.numeric(0.02),
+#'S3 = as.numeric(0.02),
+#'S4 = as.numeric(0.02),
+#'N1 = as.numeric(0.72),
+#'N2 = as.numeric(0.02),
+#'N3 = as.numeric(0.02),
+#'N4 = as.numeric(0.02),
+#'C1 = as.numeric(0.02),
+#'C2 = as.numeric(0.02),
+#'C3 = as.numeric(0.02),
+#'C4 = as.numeric(0.02),
+#'C5 = as.numeric(0.02),
+#'M1 = as.numeric(0.02),
+#'M2 = as.numeric(0.02))
 #'
-#'c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
+#'rownames(df) <- "TP53"
 #'
-#'set.seed(7)
-#'c.prots <- sample(c.prots, 365)
-#'cls <- svmClassification(c.prots, df, markerProteins)
+#'sum.df <- sumProbability(df)
 #'
-#'test.A <- cls[[1]]$svm.test.prob.out
-#'
-#'rep.obs <- replacePrediction(df = test.A, column = "Observation")
-#'
-#'neighborhood.repA <- replacePrediction(df=rep.obs, column = "svm.pred")
-#'
-#'sum.repA <- sumProbability(neighborhood.repA)
 #'}
 #'@return summed.df
 

@@ -320,10 +320,10 @@ SubCellBarCode. It is in `data.frame` format;
 head(hcc827CtrlPSMCount)
 ```
 
-#```{r plotbarcode, fig.width = 6, fig.height = 6}
-#plotBarcode(sampleClassification = cls.df, protein = "TP53",
-#        s1PSM = hcc827CtrlPSMCount)
-#```
+```{r plotbarcode, fig.width = 6, fig.height = 6}
+plotBarcode(sampleClassification = cls.df, protein = "NLRP4",
+        s1PSM = hcc827CtrlPSMCount)
+```
 
 ## Co-localization plot
 To evaluate localization and of multiple proteins at 

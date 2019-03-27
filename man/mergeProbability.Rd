@@ -20,19 +20,27 @@ associated neighborhood levels. It is a helper function.
 \examples{
 {
 
-df <- loadData(SubCellBarCode::hcc827Ctrl)
+#create mock data
+df <- data.frame(Protein = "TP53",
+S1 = as.numeric(0.02),
+S2 = as.numeric(0.02),
+S3 = as.numeric(0.02),
+S4 = as.numeric(0.02),
+N1 = as.numeric(0.72),
+N2 = as.numeric(0.02),
+N3 = as.numeric(0.02),
+N4 = as.numeric(0.02),
+C1 = as.numeric(0.02),
+C2 = as.numeric(0.02),
+C3 = as.numeric(0.02),
+C4 = as.numeric(0.02),
+C5 = as.numeric(0.02),
+M1 = as.numeric(0.02),
+M2 = as.numeric(0.02))
 
-c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
+rownames(df) <- "TP53"
 
-set.seed(7)
-c.prots <- sample(c.prots, 365)
-cls <- svmClassification(c.prots, df, markerProteins)
-
-all.A <- cls[[1]]$all.prot.pred
-
-all.n.repA <- replacePrediction(all.A, column = "svm.pred.all")
-
-m.all.repA <- mergeProbability(all.n.repA)
+merged.df <- mergeProbability(df)
 
 }
 }
