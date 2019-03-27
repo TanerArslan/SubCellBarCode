@@ -43,12 +43,12 @@ t.n.df <- computeThresholdNeighborhood(test.A, test.B)
 all.A <- cls[[1]]$all.prot.pred
 all.B <- cls[[2]]$all.prot.pred
 
-c.cls.df <- applyThresholdCompartment(all.A, all.B, t.c.df)
+c.cls.df <- applyThresholdCompartment(all.A[1:300,],all.B[1:300,],t.c.df)
 
-n.cls.df <- applyThresholdNeighborhood(all.A, all.B, t.n.df)
+n.cls.df <- applyThresholdNeighborhood(all.A[1:300,],all.B[1:300,],t.n.df)
 
 cls.df <- mergeCls(c.cls.df, n.cls.df)
 
-proteinPlot <- plotBarcode(cls.df, "AAR2", hcc827CtrlPSMCount)
+proteinPlot <- plotBarcode(cls.df, "ACAA2", hcc827CtrlPSMCount)
 }
 }

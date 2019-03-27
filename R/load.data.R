@@ -15,13 +15,13 @@
 
 loadData <- function(protein.data){
 
-    if( is.data.frame(protein.data) == FALSE )
+    if(! is.data.frame(protein.data))
         stop('Input must be a data frame format! Type ?loadData')
 
     if(! ncol(protein.data) == 10)
         stop('Input data must have 10 columns! Type ?loadData')
 
-    if (! is.character(rownames(protein.data)) == TRUE)
+    if (! is.character(rownames(protein.data)))
         stop('Rownames must be character!')
 
 

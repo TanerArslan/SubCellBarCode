@@ -18,7 +18,7 @@ Duplicated franctions A and B are
 summarized by taking their mean for each protein.
 After taking the mean, the data log2 transformed.
 Further, the 5 main fractions are used to check correlation
-between input datas.
+between input datas. It is a helper function.
 }
 \examples{
 {

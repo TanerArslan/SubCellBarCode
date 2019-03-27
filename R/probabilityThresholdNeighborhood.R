@@ -25,59 +25,43 @@
 
 computeThresholdNeighborhood <- function(test.repA, test.repB){
 
-    couple.lsit <- list(c("Secretory", "S1"), c("Secretory", "S2"),
-                        c("Secretory", "S3"), c("Secretory", "S4"),
-                        c("Nuclear", "N1"), c("Nuclear", "N2"),
-                        c("Nuclear", "N3"), c("Nuclear", "N4"),
-                        c("Cytosol", "C1"), c("Cytosol", "C2"),
-                        c("Cytosol", "C3"), c("Cytosol", "C4"),
-                        c("Cytosol", "C5"), c("Mitochondria", "M1"),
-                        c("Mitochondria", "M2"))
+    #upgrade compartment labels to neighborhood labels for prediction
+    replaceObervation <- SubCellBarCode::replacePrediction(df = test.repA,
+                                                    column = "Observation")
+    neighborhood.repA <- SubCellBarCode::replacePrediction(df=replaceObervation,
+                                                        column = "svm.pred")
 
-    #upgrade compartment labels to neighborhood labels
-    replaceRows <- function(df, column = c("Observation", "svm.pred")){
-        multiple.lst <- lapply(couple.lsit, function(f){
-            temp.df <- df[df[column] == unname(unlist(f[2])), ]
-            temp.df[[column]] <- as.character(unname(unlist(f[1])))
-            temp.df
-        })
-        replaced.df <- do.call("rbind", multiple.lst)
-    }
-
-    replaceObervation <- replaceRows(df = test.repA, column = "Observation")
-    neighborhood.repA <- replaceRows(df = replaceObervation,
-                                        column = "svm.pred")
-
-    replaceObervation <- replaceRows(df = test.repB, column = "Observation")
-    neighborhood.repB <- replaceRows(df = replaceObervation,
-                                        column = "svm.pred")
+    replaceObervation <- SubCellBarCode::replacePrediction(df = test.repB,
+                                                    column = "Observation")
+    neighborhood.repB <- SubCellBarCode::replacePrediction(df=replaceObervation,
+                                                    column = "svm.pred")
 
     # concatanate the probabilities for corresponding neighborhood
-    sumProbability <- function(df){
+    #sumProbability <- function(df){
 
-        t.secretory.df <- data.frame(df[, colnames(df)[3:6]])
-        t.secretory.df$Secretory <- apply(t.secretory.df, 1, sum)
-        t.nuclear.df <- data.frame(df[, colnames(df)[7:10]])
-        t.nuclear.df$Nuclear <- apply(t.nuclear.df, 1, sum)
-        t.cytosol.df <- data.frame(df[, colnames(df)[11:15]])
-        t.cytosol.df$Cytosol <- apply(t.cytosol.df, 1, sum)
-        t.Mitochondria.df <- data.frame(df[, colnames(df)[16:17]])
-        t.Mitochondria.df$Mitochondria <- apply(t.Mitochondria.df, 1, sum)
+        #t.secretory.df <- data.frame(df[, colnames(df)[3:6]])
+        #t.secretory.df$Secretory <- apply(t.secretory.df, 1, sum)
+        #t.nuclear.df <- data.frame(df[, colnames(df)[7:10]])
+        #t.nuclear.df$Nuclear <- apply(t.nuclear.df, 1, sum)
+        #t.cytosol.df <- data.frame(df[, colnames(df)[11:15]])
+        #t.cytosol.df$Cytosol <- apply(t.cytosol.df, 1, sum)
+        #t.Mitochondria.df <- data.frame(df[, colnames(df)[16:17]])
+        #t.Mitochondria.df$Mitochondria <- apply(t.Mitochondria.df, 1, sum)
 
-        summed.df <- data.frame(Proteins = rownames(df),
-                                df[,colnames(df)[seq_len(2)]],
-                                Secretory = t.secretory.df$Secretory,
-                                Nuclear = t.nuclear.df$Nuclear,
-                                Cytosol = t.cytosol.df$Cytosol,
-                                Mitochondria = t.Mitochondria.df$Mitochondria)
+        #summed.df <- data.frame(Proteins = rownames(df),
+        #                        df[,colnames(df)[seq_len(2)]],
+        #                        Secretory = t.secretory.df$Secretory,
+        #                        Nuclear = t.nuclear.df$Nuclear,
+        #                        Cytosol = t.cytosol.df$Cytosol,
+        #                        Mitochondria = t.Mitochondria.df$Mitochondria)
         #temp neighborhood df
-        t.n.df <- summed.df[,4:7]
-        summed.df$svm.pred <- colnames(t.n.df)[apply(t.n.df, 1, which.max)]
-        return(summed.df)
-    }
+        #t.n.df <- summed.df[,4:7]
+        #summed.df$svm.pred <- colnames(t.n.df)[apply(t.n.df, 1, which.max)]
+        #return(summed.df)
+    #}
 
-    sum.repA <- sumProbability(neighborhood.repA)
-    sum.repB <- sumProbability(neighborhood.repB)
+    sum.repA <- SubCellBarCode::sumProbability(neighborhood.repA)
+    sum.repB <- SubCellBarCode::sumProbability(neighborhood.repB)
 
     sum.repB <- sum.repB[rownames(sum.repA), ]
 

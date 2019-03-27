@@ -48,7 +48,7 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
                         C.A = df1$NeighborhoodCls,
                         C.B = df2$NeighborhoodCls)
 
-    ###########
+    #calculate the mean of duplicates
     s1Quant <- SubCellBarCode::calRowMean(s1Quant)
     s2Quant <- SubCellBarCode::calRowMean(s2Quant)
 

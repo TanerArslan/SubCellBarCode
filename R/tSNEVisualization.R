@@ -64,8 +64,8 @@ tsneVisualization <- function(protein.data,
 
         perplexity.val <- as.numeric(min.theta.perp[1])
 
-        message(sprintf("Theta value: %s", theta.val))
-        message(sprintf("Perplexity value: %s", perplexity.val))
+        cat("Theta value: ", theta.val)
+        cat("Perplexity value: ", perplexity.val)
 
 
         rtsne.map <- Rtsne::Rtsne(tsne.df,
@@ -152,8 +152,8 @@ tsneVisualization <- function(protein.data,
 
         perplexity.val <- as.numeric(min.theta.perp[1])
 
-        message(sprintf("Theta value: %s", theta.val))
-        message(sprintf("Perplexity value: %s", perplexity.val))
+        cat("Theta value: ", theta.val)
+        cat("Perplexity value: ", perplexity.val)
         rtsne.map <- Rtsne::Rtsne(tsne.df,
                         dims = 2,
                         theta = theta.val,
@@ -180,7 +180,7 @@ tsneVisualization <- function(protein.data,
 
     } else{
 
-        message("Plesae select the correct dimension. It is either 2 or 3.")
+        stop("Plesae select the correct dimension. It is either 2 or 3.")
 
     }
 }

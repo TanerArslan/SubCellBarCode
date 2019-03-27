@@ -56,8 +56,7 @@ markerQualityControl <- function(coveredProteins, protein.data){
     #remove replicate-wise markerp proteins
     rep.prots <- names(cor.reps.pearson[cor.reps.pearson < 0.8 ])
 
-    message(sprintf("Number of removed replicate-wise proteins: %s",
-                    length(rep.prots)))
+    message("Number of removed replicate-wise proteins: ", length(rep.prots))
 
     # sample-wise correlation marker QC
     prot.names <- setdiff(rownames(m.prot.df), rep.prots)
@@ -123,13 +122,13 @@ markerQualityControl <- function(coveredProteins, protein.data){
     sample.removed.prot <- df[df$Pearson < 0.8 | df$Spearman < 0.599,]
     sample.removed.prot <- as.character(sample.removed.prot$Protein)
 
-    message(sprintf("Number of removed sample-wise proteins: %s",
-                    length(sample.removed.prot)))
+    message("Number of removed sample-wise proteins: ",
+            length(sample.removed.prot))
 
     robustMarkerProteins <- setdiff(prot.names, sample.removed.prot)
 
-    message(sprintf("Number of total removed marker proteins: %s",
-                    length(sample.removed.prot) + length(rep.prots)))
+    message("Number of total removed marker proteins: ",
+                    length(sample.removed.prot) + length(rep.prots))
 
     grid.arrange(p1, p2, ncol=2)
 
@@ -151,15 +150,14 @@ markerQualityControl <- function(coveredProteins, protein.data){
 
     non.enriched.loc <- r.cov.df[r.cov.df$ProteinCoverage < 20, ]
     if(nrow(non.enriched.loc) == 1){
-        warning(sprintf("There is not enough enrichment at %s localization.
-                \nWe recommend you to perform the fractionation, again.",
-                        as.character(non.enriched.loc$Compartments)))
+        warning("There is not enough enrichment at: ",
+                as.character(non.enriched.loc$Compartments),
+                "\nWe recommend you to perform the fractionation, again.")
     }else if(nrow(non.enriched.loc) > 1){
         comp <- paste(as.character(non.enriched.loc$Compartments),
                     collapse = ",")
-        warning(sprintf("There are not enough enrichment at %s localizations.
-                        \nWe recommend you to perform the fractionation,
-    as we describe at the manuscprit.", comp))
+        warning("There are not enough enrichments at: ",
+                comp, "\nWe recommend you to perform the fractionation.")
     }
 
     return(robustMarkerProteins)

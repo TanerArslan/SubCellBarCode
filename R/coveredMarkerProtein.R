@@ -47,15 +47,14 @@ calculateCoveredProtein <- function(proteinIDs, markerproteins){
     #check if there is not enough enrichemnt in any compartment
     non.enriched.loc <- coverage.df[coverage.df$ProteinCoverage < 20, ]
     if(nrow(non.enriched.loc) == 1){
-        warning(sprintf("There is not enough enrichment at %s localization.
-                    \nWe recommend you to perform the fractionation, again.",
-                        as.character(non.enriched.loc$Compartments)))
+        warning("There is not enough enrichment at: ",
+                as.character(non.enriched.loc$Compartments),
+                "\nWe recommend you to perform the fractionation, again.")
     }else if(nrow(non.enriched.loc) > 1){
         comp <- paste(as.character(non.enriched.loc$Compartments),
                 collapse = ",")
-        warning(sprintf("There are not enough enrichment at %s localizations.
-                \nWe recommend you to perform the fractionation,
-        as we describe at the manuscprit.", comp))
+        warning("There are not enough enrichments at: ",
+                comp, "\nWe recommend you to perform the fractionation!")
     }
 
 
@@ -78,7 +77,7 @@ calculateCoveredProtein <- function(proteinIDs, markerproteins){
         ))
 
     coverage <- round(length(covered.proteins) / length(markerproteins), 2)
-    cat(sprintf("Overall Coverage of marker proteins : %s ", coverage))
+    cat("Overall Coverage of marker proteins : ", coverage)
 
     return (covered.proteins)
 }
