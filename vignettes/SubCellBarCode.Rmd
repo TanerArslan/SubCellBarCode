@@ -69,7 +69,7 @@ head(hcc827Ctrl)
 ## Marker Proteins
 The classification of protein localisation using the SubCellBarCode 
 method is dependent on 3365 marker proteins as defined in Orre et al. 
-The markerProteins `data.frame` contains protein names (gene symbol), 
+The markerProteins `data.frame` contain protein names (gene symbol), 
 associated subcellular localization (compartment), color code for 
 the compartment and the median normalized fractionation
 profile (log2) based on five different human cell lines 
