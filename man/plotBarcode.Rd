@@ -25,30 +25,37 @@ neighborhood level with respect to classification probabilities.
 \examples{
 {
 
-df <- loadData(SubCellBarCode::hcc827Ctrl)
+#create mock data
+plot.df <- data.frame(Protein = "TP53",
+NeighborhoodCls = "Nuclear",
+CompartmentCls = "N1",
+Secretory = as.numeric(0.01),
+Nuclear = as.numeric(0.95),
+Cytosol = as.numeric(0.02),
+Mitochondria = as.numeric(0.02),
+S1 = as.numeric(0.02),
+S2 = as.numeric(0.02),
+S3 = as.numeric(0.02),
+S4 = as.numeric(0.02),
+N1 = as.numeric(0.72),
+N2 = as.numeric(0.02),
+N3 = as.numeric(0.02),
+N4 = as.numeric(0.02),
+C1 = as.numeric(0.02),
+C2 = as.numeric(0.02),
+C3 = as.numeric(0.02),
+C4 = as.numeric(0.02),
+C5 = as.numeric(0.02),
+M1 = as.numeric(0.02),
+M2 = as.numeric(0.02))
 
-c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
+rownames(plot.df) <- "TP53"
 
-set.seed(7)
-c.prots <- sample(c.prots, 365)
-cls <- svmClassification(c.prots, df, markerProteins)
+psm.df <- data.frame(Protein = "TP53",
+PSMs.for.quant = as.numeric(31))
 
-test.A <- cls[[1]]$svm.test.prob.out
-test.B <- cls[[2]]$svm.test.prob.out
+rownames(psm.df) <- "TP53"
 
-t.c.df <- computeThresholdCompartment(test.A, test.B)
-
-t.n.df <- computeThresholdNeighborhood(test.A, test.B)
-
-all.A <- cls[[1]]$all.prot.pred
-all.B <- cls[[2]]$all.prot.pred
-
-c.cls.df <- applyThresholdCompartment(all.A[1:300,],all.B[1:300,],t.c.df)
-
-n.cls.df <- applyThresholdNeighborhood(all.A[1:300,],all.B[1:300,],t.n.df)
-
-cls.df <- mergeCls(c.cls.df, n.cls.df)
-
-proteinPlot <- plotBarcode(cls.df, "ACAA2", hcc827CtrlPSMCount)
+proteinPlot <- plotBarcode(plot.df, "TP53", psm.df)
 }
 }
