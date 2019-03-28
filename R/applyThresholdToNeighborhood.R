@@ -28,7 +28,7 @@
 #'all.A <- cls[[1]]$all.prot.pred
 #'all.B <- cls[[2]]$all.prot.pred
 #'
-#'n.cls.df <- applyThresholdNeighborhood(all.A[1:150,],all.B[1:150,],t.n.df)
+#'n.cls.df <- applyThresholdNeighborhood(all.A, all.B, t.n.df)
 #'}
 #'@return n.cls.df
 

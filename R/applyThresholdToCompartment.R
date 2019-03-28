@@ -27,7 +27,7 @@
 #'all.A <- cls[[1]]$all.prot.pred
 #'all.B <- cls[[2]]$all.prot.pred
 #'
-#'c.cls.df <- applyThresholdCompartment(all.A[1:300,],all.B[1:300,],t.c.df)
+#'c.cls.df <- applyThresholdCompartment(all.A, all.B, t.c.df)
 #'}
 #'@return c.cls.df
 
