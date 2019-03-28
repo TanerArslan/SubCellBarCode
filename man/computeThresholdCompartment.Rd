@@ -28,7 +28,7 @@ df <- loadData(SubCellBarCode::hcc827Ctrl)
 c.prots <- calculateCoveredProtein(rownames(df), markerProteins[,1])
 
 set.seed(7)
-c.prots <- sample(c.prots, 500)
+c.prots <- sample(c.prots, 550)
 cls <- svmClassification(c.prots, df, markerProteins)
 
 test.A <- cls[[1]]$svm.test.prob.out
