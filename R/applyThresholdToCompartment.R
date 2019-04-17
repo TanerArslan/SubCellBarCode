@@ -70,8 +70,8 @@ applyThresholdCompartment <- function(all.repA, all.repB, threshold.df){
         t.p <- unname(unlist(threshold.df[threshold.df$Compartment == m, ][2]))
         #temp recall
         t.r <- unname(unlist(threshold.df[threshold.df$Compartment == m, ][3]))
-        if (! is.na(t.p) == TRUE){
-            t.value <- max(t.p, t.r)
+        t.value <- max(t.p, t.r)
+        if(is.numeric(t.value)){
             temp.df <- averaged.repAB[averaged.repAB$svm.pred == m, ]
             up.threshold.df <- temp.df[temp.df[m] >= t.value, ]
         }

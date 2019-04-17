@@ -78,8 +78,8 @@ applyThresholdNeighborhood <- function(all.repA, all.repB, threshold.df){
         t.p <- unname(unlist(threshold.df[threshold.df$Neighborhood == m, ][2]))
         #temp recall
         t.r <- unname(unlist(threshold.df[threshold.df$Neighborhood == m, ][3]))
-        if (! is.na(t.p)){
-            t.value <- max(t.p, t.r)
+        t.value <- max(t.p, t.r)
+        if (is.numeric(t.p)){
             temp.df <- combined.rep.A.B[combined.rep.A.B$svm.pred.all == m, ]
             up.threshold.df <- temp.df[temp.df[m] >= t.value, ]
         }

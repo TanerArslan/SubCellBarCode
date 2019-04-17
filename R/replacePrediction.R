@@ -33,8 +33,10 @@ replacePrediction <- function(df,
 
     multiple.lst <- lapply(couple.lsit, function(f){
         temp.df <- df[df[column] == unname(unlist(f[2])), ]
-        temp.df[[column]] <- as.character(unname(unlist(f[1])))
-        temp.df
+        if(nrow(temp.df) > 0){
+            temp.df[[column]] <- as.character(unname(unlist(f[1])))
+            temp.df
+        }
     })
     replaced.df <- do.call("rbind", multiple.lst)
 }
