@@ -16,7 +16,6 @@ date: "`r Sys.Date()`"
 output: 
     BiocStyle::html_document:
         toc_fload: true
-    BiocStyle::pdf_document: default   
 package: SubCellBarCode
 abstract: In the SubCellBarCode project, mass spectrometry (MS) 
     based proteomics was used for proteome-wide mapping of protein 
@@ -46,6 +45,14 @@ install.packages("devtools")
 library(devtools)
 install_github("TanerArslan/SubCellBarCode")
 ```
+
+or through `BiocManager` package:
+
+``` {r install,eval = FALSE}
+if (!requireNamespace("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install("SubCellBarCode")
+``` 
 
 # Load the package
 
