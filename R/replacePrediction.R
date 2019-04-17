@@ -14,6 +14,7 @@
 #'"M1","M2"))
 #'
 #'df$svm.pred.all <- as.character(df$svm.pred.all)
+#'df$Prob <- "1"
 #'
 #'df <- replacePrediction(df, column = "svm.pred.all")
 #'}

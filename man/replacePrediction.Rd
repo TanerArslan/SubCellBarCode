@@ -30,6 +30,7 @@ df <- data.frame(svm.pred.all = c("S1","S2","S3","S4",
 "M1","M2"))
 
 df$svm.pred.all <- as.character(df$svm.pred.all)
+df$Prob <- "1"
 
 df <- replacePrediction(df, column = "svm.pred.all")
 }
