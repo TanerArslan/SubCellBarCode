@@ -112,7 +112,7 @@ we recommend you to perform the cell fractionation again.
 If all compartments are low in coverage we recommend increasing 
 the analytical depth of the MS-analysis.* 
 
-```{r coverageMarkers}
+```{r coverageMarkers, fig = TRUE}
 c.prots <- calculateCoveredProtein(proteinIDs = rownames(df), 
                         markerproteins = markerProteins[,1]) 
 ```
@@ -142,7 +142,7 @@ r.markers[1:5]
 **Optional step:** After removing non-marker proteins, you can re-calculate 
 and visualize the final coverage of the marker proteins.
 
-```{r finalCoverage}
+```{r finalCoverage, fig = TRUE}
 ## uncomment the function when running 
 # f.prots <- calculateCoveredProtein(r.markers, markerProteins[,1])
 ```
@@ -172,7 +172,7 @@ of machine learning, it can be misleading if it is not well
 optimized. Therefore, we optimize t-SNE map by grid search, 
 a process that can take some time 
 
-```{r tsnedim3, fig.width = 6.5, fig.height = 6.5}
+```{r tsnedim3, fig = TRUE, fig.width = 6.5, fig.height = 6.5}
 set.seed(6)
 tsne.map <- tsneVisualization(protein.data = df, 
                     markerProteins = r.markers, 
@@ -189,7 +189,7 @@ reducing the dimensionality results in loss of information and
 underestimation of data resolution. 
 
 
-```{r tsnedim2}
+```{r tsnedim2, fig = TRUE}
 set.seed(9)
 tsne.map2 <- tsneVisualization(protein.data = df, 
                     markerProteins = r.markers, 
@@ -319,7 +319,7 @@ SubCellBarCode. It is in `data.frame` format;
 head(hcc827CtrlPSMCount)
 ```
 
-```{r plotbarcode, fig.width = 6, fig.height = 6}
+```{r plotbarcode, fig = TRUE, fig.width = 6, fig.height = 6}
 plotBarcode(sampleClassification = cls.df, protein = "NLRP4",
         s1PSM = hcc827CtrlPSMCount)
 ```
@@ -334,7 +334,7 @@ evaluating co-localization of proteins, protein complex
 formation and compartmentalized protein level regulation.
 
 
-```{r multipleprots, fig.width= 10, fig.height = 8}
+```{r multipleprots, fig = TRUE, fig.width= 10, fig.height = 8}
 # 26S proteasome complex (26s proteasome regulatory complex)
 proteasome26s <- c("PSMA7", "PSMC3","PSMA4", "PSMB4", 
                     "PSMB6", "PSMB5", "PSMC2","PSMC4",
@@ -405,7 +405,7 @@ the `min.psm` and `pearson.cor` parameters.
 #pearson.cor = perason correlation coefficient
 ```
 
-```{r strongCandidates}
+```{r strongCandidates, fig = TRUE}
 candidate.df <- candidateRelocatedProteins(sampleCls1 = cls.df, 
                                 s1PSM = hcc827CtrlPSMCount, 
                                 s1Quant = hcc827Ctrl,
@@ -428,7 +428,7 @@ Candidate subset of differentially localizing proteins can
 be annotated with names by setting `annotation = TRUE`, `min.psm` 
 and `pearson.cor` 
 
-```{r strongCandidatesLabel}
+```{r strongCandidatesLabel, fig = TRUE}
 candidate2.df <- candidateRelocatedProteins(sampleCls1 = cls.df,
                                 s1PSM = hcc827CtrlPSMCount, 
                                 s1Quant = hcc827Ctrl, 
