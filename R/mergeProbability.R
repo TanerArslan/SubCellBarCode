@@ -34,13 +34,13 @@
 mergeProbability <- function(df){
 
     t.secretory.df <- data.frame(df[, colnames(df)[2:5]])
-    t.secretory.df$Secretory <- apply(t.secretory.df, 1, sum)
+    t.secretory.df$Secretory <- rowSums(t.secretory.df)
     t.nuclear.df <- data.frame(df[, colnames(df)[6:9]])
-    t.nuclear.df$Nuclear <- apply(t.nuclear.df, 1, sum)
+    t.nuclear.df$Nuclear <- rowSums(t.nuclear.df)
     t.cytosol.df <- data.frame(df[, colnames(df)[10:14]])
-    t.cytosol.df$Cytosol <- apply(t.cytosol.df, 1, sum)
+    t.cytosol.df$Cytosol <- rowSums(t.cytosol.df)
     t.Mitochondria.df <- data.frame(df[, colnames(df)[15:16]])
-    t.Mitochondria.df$Mitochondria <- apply(t.Mitochondria.df, 1, sum)
+    t.Mitochondria.df$Mitochondria <- rowSums(t.Mitochondria.df)
 
     merged.df <- data.frame(Proteins = rownames(df),
                             svm.pred.all = df[,colnames(df)[1]],

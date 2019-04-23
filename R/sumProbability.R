@@ -36,13 +36,13 @@
 sumProbability <- function(df){
 
     t.secretory.df <- data.frame(df[, colnames(df)[3:6]])
-    t.secretory.df$Secretory <- apply(t.secretory.df, 1, sum)
+    t.secretory.df$Secretory <- rowSums(t.secretory.df)
     t.nuclear.df <- data.frame(df[, colnames(df)[7:10]])
-    t.nuclear.df$Nuclear <- apply(t.nuclear.df, 1, sum)
+    t.nuclear.df$Nuclear <- rowSums(t.nuclear.df)
     t.cytosol.df <- data.frame(df[, colnames(df)[11:15]])
-    t.cytosol.df$Cytosol <- apply(t.cytosol.df, 1, sum)
+    t.cytosol.df$Cytosol <- rowSums(t.cytosol.df)
     t.Mitochondria.df <- data.frame(df[, colnames(df)[16:17]])
-    t.Mitochondria.df$Mitochondria <- apply(t.Mitochondria.df, 1, sum)
+    t.Mitochondria.df$Mitochondria <- rowSums(t.Mitochondria.df)
 
     summed.df <- data.frame(Proteins = rownames(df),
                             df[,colnames(df)[seq_len(2)]],
