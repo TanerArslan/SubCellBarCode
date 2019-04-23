@@ -38,15 +38,7 @@ vignette: >
 # Installation of the package
 
                                                                                 
-`SubCellBarCode` can be installed from github using `devtools` package:
-
-```{r installPackage, eval=FALSE}
-install.packages("devtools")
-library(devtools)
-install_github("TanerArslan/SubCellBarCode")
-```
-
-or through `BiocManager` package:
+`SubCellBarCode` can be installed through `BiocManager` package as follows:
 
 ``` {r install,eval = FALSE}
 if (!requireNamespace("BiocManager"))
