@@ -22,6 +22,6 @@ row is filtered out. Later, the data is normalized by taking log2.
 \examples{
 {
 
-df <- loadData(SubCellBarCode::hcc827Ctrl[1:10,])
+df <- loadData(SubCellBarCode::hcc827Ctrl[1:20,])
 }
 }
