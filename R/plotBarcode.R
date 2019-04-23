@@ -135,5 +135,5 @@ plotBarcode <- function(sampleClassification, protein, s1PSM){
                     scale_x_discrete(labels=c("Compartment" = c.l,
                                                 "Neighborhood" = n.l))
 
-    plot(proteinPlot)
+    print(proteinPlot)
 }

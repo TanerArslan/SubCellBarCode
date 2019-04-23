@@ -82,7 +82,7 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
 
     if( ! annotation){
 
-        plot(ggplot(f.df,
+        print(ggplot(f.df,
                 aes(x = log2(f.df$Min.PSMs),
                     y = f.df$Pearson.Corr,
                     color = Relocalization))+
@@ -120,7 +120,7 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
         annot.df <- annot.df[rownames(f.df),]
 
         Relocalization <- annot.df$Relocated
-        plot(ggplot(annot.df,
+        print(ggplot(annot.df,
                     aes(log2(annot.df$Min.PSMs),
                         annot.df$Pearson.Corr,
                         label = annot.df$Label,
