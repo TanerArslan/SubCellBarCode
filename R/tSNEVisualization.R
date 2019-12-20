@@ -65,7 +65,7 @@ tsneVisualization <- function(protein.data,
         perplexity.val <- as.numeric(min.theta.perp[1])
 
         cat("Theta value: ", theta.val)
-        cat("Perplexity value: ", perplexity.val)
+        cat("\nPerplexity value: ", perplexity.val)
 
 
         rtsne.map <- Rtsne::Rtsne(tsne.df,
@@ -153,7 +153,7 @@ tsneVisualization <- function(protein.data,
         perplexity.val <- as.numeric(min.theta.perp[1])
 
         cat("Theta value: ", theta.val)
-        cat("Perplexity value: ", perplexity.val)
+        cat("\nPerplexity value: ", perplexity.val)
         rtsne.map <- Rtsne::Rtsne(tsne.df,
                         dims = 2,
                         theta = theta.val,

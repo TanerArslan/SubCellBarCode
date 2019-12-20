@@ -28,7 +28,9 @@ abstract: In the SubCellBarCode project, mass spectrometry (MS)
     localizations. Moreover, the R-package can be used for differential 
     localization analysis to investigate e.g. treatment induced protein 
     relocalization, condition dependent localization or cell type 
-    specific localization.
+    specific localization. Last but not least, it provides peptide/
+    exon/transcript centric classification as well as PTM (Post 
+    translation modifications) modified peptide classification. 
 vignette: >
     %\VignetteIndexEntry{SubCellBarCode R Markdown vignettes}
     %\VignetteEngine{knitr::rmarkdown}
@@ -57,9 +59,9 @@ library(SubCellBarCode)
 As example data we here provide the publicly available HCC827 (human lung 
 adenocarcinoma cell line) TMT10plex labelled proteomics dataset 
 (*Orre et al.* 2019, Molecular Cell). The `data.frame` consists of 
-10480 proteins as rows (rownames must be gene 
-centric protein ids) and 5 fractions with duplicates as columns 
-(replicates should be named ".A." and ".B.", repectively). 
+10480 proteins as rows (rownames are gene -centric protein ids) 
+and 5 fractions with duplicates as columns 
+(replicates must be named ".A." and ".B.", repectively). 
                                                                                 
 ```{r exampleData}
 head(hcc827Ctrl)
@@ -91,8 +93,24 @@ df <- loadData(protein.data = hcc827Ctrl)
 
 
 ```{r printDimData}
-print(dim(df))
+cat(dim(df))
 head(df)
+```
+
+**Additional step:**
+We use gene symbols for the protein identification. Therefore, we require 
+gene symbols for the identifiaction. However, if the input data has 
+other identifier e.g. UNIPROT, IPI, Entrez ID, you can convert it to gene
+symbol by our defined function.   
+*Please be aware of possible (most likely few) id loss during the 
+conversion to one another.*
+
+```{r convertID}
+##Run if you have another identifier than gene symbols.
+##Function will convert UNIPROT identifier to gene symbols.
+##Deafult id is "UNIPROT", make sure you change it if you use another.
+
+#df <- convert2symbol(df = df, id = "UNIPROT")
 ```
 
 For the downstream analysis, we used the randomly selected subset data. 
@@ -119,7 +137,7 @@ c.prots <- calculateCoveredProtein(proteinIDs = rownames(df),
                                                                                 
 ## Quality control of the marker proteins
 To avoid reduced classification accuracy, marker proteins with 
-noisy quantificationand marker proteins that are not representative 
+noisy quantification and marker proteins that are not representative 
 of their associated compartment (e.g.due to cell type specific 
 localization) are filtered out by a two-step quality control. 
 
@@ -135,7 +153,7 @@ method were then used for filtering with cut-offs set to 0.8 and 0.6
 respectively, to exclude non-representative marker proteins (Figure B).
 
 ```{r markerQC}
-r.markers <- markerQualityControl(coveredProteins = c.prots, protein.data = df)
+r.markers <- markerQualityControl(coveredProteins = c.prots,protein.data = df)
 r.markers[1:5]
 ```
 
@@ -148,7 +166,7 @@ and visualize the final coverage of the marker proteins.
 ```
                                                                                 
 ## Visualization of marker proteins in t-SNE map
-The spatial distribution of the marker proteins is vizualized in 
+The spatial distribution of the marker proteins is visualized in 
 t-SNE map. This plot will be informative for the quality control 
 of the generated data as it offers evaluation of the spatial 
 distribution and separation of marker proteins. 
@@ -307,7 +325,7 @@ cls.df <- mergeCls(compartmentCls = c.cls.df, neighborhoodCls = n.cls.df)
 head(cls.df)
 ```
 
-# Vizualization of the protein subcellular localization
+# Visualization of the protein subcellular localization
 ## SubCellBarCode plot
 You can query one protein at a time to plot barcode of the protein 
 of the interest.    
@@ -417,7 +435,7 @@ candidate.df <- candidateRelocatedProteins(sampleCls1 = cls.df,
 ```
 
 ```{r printdim}
-print(dim(candidate.df))
+cat(dim(candidate.df))
 ```
 
 ```{r printhead}
@@ -439,6 +457,99 @@ candidate2.df <- candidateRelocatedProteins(sampleCls1 = cls.df,
                                 min.psm = 9, 
                                 pearson.cor = 0.05) 
 ```
+
+#Peptide/Exon/Transcript centric or PTM regulated localization
+Our main analysis is based on gene-centric. However, based on the analytical
+depth of the data, peptide/exon/transcript centric classifications can
+be performed. Moreover, this approach is also applicable for
+post translation modification (PTM) enriched data.  
+Fundamentally, we will use the same classifiers, compartment 
+and neighborhood levels thresholds and apply 
+them to peptide/exon/transcript data. 
+
+## Exon-centric classification
+Here, we have provided subset of the HCC827 exon-centric data. 
+
+```{r head exon data}
+head(hcc827exon)
+```
+
+For the classification, we will use the gene-centric model that we built in 
+section 3.7.
+
+```{r recall model}
+##recall the models
+modelA <- cls[[1]]$model
+modelB <- cls[[2]]$model
+```
+
+*`svmExternalData` function greps replicates A and B, repectively. So 
+the input data can include other features like, here, peptide counts.* 
+
+```{r exon centric cls}
+exon.cls <- svmExternalData(df = hcc827exon, modelA = modelA, modelB= modelB)
+```
+
+
+```{r exon cls}
+exon.A <- exon.cls[[1]]
+exon.B <- exon.cls[[2]]
+```
+
+```{r exon cls rep A}
+head(exon.A)
+```
+
+Next steps are exactly same as what we did in section 3.7. We will 
+use same thresholdsthat we have estimated in 3.7.1 and 3.7.3. 
+Finally, we will merge two classifications same function used 
+in 3.7.5.
+
+```{r apply thresholds}
+exon.comp.cls <- applyThresholdCompartment(all.repA = exon.A[,2:17], 
+                                    all.repB = exon.B[,2:17],
+                                    threshold.df = t.c.df)
+
+exon.neigh.cls <- applyThresholdNeighborhood(all.repA = exon.A[,2:17], 
+                                    all.repB = exon.B[,2:17], 
+                                    threshold.df = t.n.df)
+
+exon.cls.df <- mergeCls(compartmentCls = exon.comp.cls, 
+                        neighborhoodCls = exon.neigh.cls)
+
+#same order
+exon.cls.df <- exon.cls.df[rownames(exon.A),]
+
+# we will add gene symbols as well as peptide count  
+# (PSM count is also accepted) in case for comparing with 
+# gene-centric classifications
+
+exon.cls.df$GeneSymbol <- exon.A$Gene_Symbol
+exon.cls.df$PeptideCount <- hcc827exon$PeptideCount
+```
+
+```{r head exon cls}
+head(exon.cls.df)
+```
+
+## Comparison between gene and exon centric classification
+The insteresting part of the exon classification is to detect deviated 
+classification between gene centric classification. However, we enrich
+more noise than gene centric classification due to analtyical dept of the exon
+centric data. Therefore, we, additioanlly, internally calculate correlation
+between gene-centric data `hcc827Ctrl` and exon-centric data `hcc827exon`, 
+and report
+number of peptides (PSM count works, too) that match to corresponding exon 
+as an indication of the confidence of the results.
+
+```{r compareCls}
+comp.df <- compareCls(geneCls = cls.df, exonCls = exon.cls.df)
+```
+
+```{r head comp.df}
+head(comp.df)
+```
+You can easily vizualize/filter the results using correlations and number of peptides. 
 
 # References
 
