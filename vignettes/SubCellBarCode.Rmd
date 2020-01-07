@@ -74,7 +74,7 @@ The markerProteins `data.frame` contain protein names (gene symbol),
 associated subcellular localization (compartment), color code for 
 the compartment and the median normalized fractionation
 profile (log2) based on five different human cell lines 
-(NCI-H322, HCC827, MCF7, A431and U251) here called the 
+(NCI-H322, HCC827, MCF7, A431 and U251) here called the 
 “5CL marker profile”.
 
 
