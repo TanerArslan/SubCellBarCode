@@ -107,7 +107,8 @@ svmClassification <- function(markerProteins, protein.data, markerprot.df){
 
                 # merge both test predicitions and all protein predictions
                 all.classifications <- list(svm.test.prob.out=svm.test.prob.out,
-                                        all.prot.pred = all.prot.pred)
+                                        all.prot.pred = all.prot.pred,
+                                        model = model.svm)
 
                 return(all.classifications)
 

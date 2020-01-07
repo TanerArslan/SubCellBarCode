@@ -78,6 +78,7 @@ applyThresholdCompartment <- function(all.repA, all.repB, threshold.df){
     })
 
     confident.df <- do.call("rbind", confident.classification)
+    confident.df <- confident.df <- confident.df[complete.cases(confident.df),]
 
     # adding "unclassified proteins"
     no.clss <- subset(repAB, ! rownames(repAB) %in% rownames(confident.df))[-3]
