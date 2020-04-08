@@ -1,8 +1,4 @@
-\name{NEWS}
-\title{News for Package SubCellBarCode}
+# SubCellBarCode 1.2.6 (2020-04-08)
 
-\section{Version 0.99.0 (2019-01-04)}{
- \itemize{
-  \item Package prepared for Bioconductor submission
- }
-}
+* Changed the `NEWS.md` file to track changes to the package.
++ Fixed bug.
