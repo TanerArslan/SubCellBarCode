@@ -1,7 +1,7 @@
 Package: SubCellBarCode
 Type: Package
 Title: SubCellBarCode: Integrated workflow for robust mapping and visualizing whole human spatial proteome
-Version: 1.7.0
+Version: 1.8.0
 Author: Taner Arslan
 Maintainer: Taner Arslan <taner.arslan@ki.se>
 Description: Mass-Spectrometry based spatial proteomics have enabled the proteome-wide mapping of protein subcellular localization (Orre et al. 2019, Molecular Cell). SubCellBarCode R package robustly classifies proteins into corresponding subcellular localization.
