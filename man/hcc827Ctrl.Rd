@@ -4,8 +4,10 @@
 \name{hcc827Ctrl}
 \alias{hcc827Ctrl}
 \title{HCC827 Control Cell Line}
-\format{A data frame where 10480 protein gene-centric ids and
-5 replicated subcellular fractions.}
+\format{
+A data frame where 10480 protein gene-centric ids and
+5 replicated subcellular fractions.
+}
 \usage{
 hcc827Ctrl
 }

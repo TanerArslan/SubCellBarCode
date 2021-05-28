@@ -4,7 +4,9 @@
 \name{hcc827CtrlPSMCount}
 \alias{hcc827CtrlPSMCount}
 \title{Minimum PSM Count in HCC827Ctrl Cell Line.}
-\format{A data frame where 10480 protein gene-centric ids minimum PSM count.}
+\format{
+A data frame where 10480 protein gene-centric ids minimum PSM count.
+}
 \usage{
 hcc827CtrlPSMCount
 }

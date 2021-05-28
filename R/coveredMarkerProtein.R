@@ -63,7 +63,7 @@ calculateCoveredProtein <- function(proteinIDs, markerproteins){
     coverage.df$ColorCode <- as.character(coverage.df$ColorCode)
 
     print(ggplot(data = coverage.df,
-        aes(x = coverage.df$Compartments, y = coverage.df$ProteinCoverage)) +
+        aes(x = Compartments, y = ProteinCoverage)) +
         geom_bar(stat="identity", fill = coverage.df$ColorCode) +
         scale_x_discrete(limits=c(compartments)) +
         theme_bw() +

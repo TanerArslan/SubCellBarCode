@@ -4,8 +4,10 @@
 \name{hcc827GEF}
 \alias{hcc827GEF}
 \title{Gefitinib treated HCC827 Cell Line}
-\format{A data frame where 10398 protein gene-centric ids and 5
-replicated subcellular fractions with duplicates.}
+\format{
+A data frame where 10398 protein gene-centric ids and 5
+replicated subcellular fractions with duplicates.
+}
 \usage{
 hcc827GEF
 }

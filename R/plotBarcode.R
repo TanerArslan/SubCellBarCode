@@ -106,10 +106,10 @@ plotBarcode <- function(sampleClassification, protein, s1PSM){
     n.l <- sprintf("Call: %s \nProb: %s", n.c, n.p)
 
     proteinPlot <- ggplot(df,
-                        aes(x = df$Level,
-                            y = df$Probability,
-                            fill = df$Locs,
-                            group = df$Probability)) +
+                        aes(x = Level,
+                            y = Probability,
+                            fill = Locs,
+                            group = Probability)) +
                     geom_bar(stat = "identity",
                             position = "stack",
                             width = 0.5) +

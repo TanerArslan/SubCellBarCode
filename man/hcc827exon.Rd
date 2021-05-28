@@ -4,9 +4,11 @@
 \name{hcc827exon}
 \alias{hcc827exon}
 \title{HCC827 Control Exon Cell Line}
-\format{A data frame where 500 exon-centric ensemble identifiers,
+\format{
+A data frame where 500 exon-centric ensemble identifiers,
 corresponding gene symbols, 5 replicated subcellular fractions
-and number of unique peptides matched to associated exon.}
+and number of unique peptides matched to associated exon.
+}
 \usage{
 hcc827exon
 }

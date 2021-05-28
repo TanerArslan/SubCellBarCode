@@ -4,8 +4,17 @@
 \alias{candidateRelocatedProteins}
 \title{Identify candidate relocated proteins}
 \usage{
-candidateRelocatedProteins(sampleCls1, s1PSM, s1Quant, sampleCls2, s2PSM,
-  s2Quant, annotation = FALSE, min.psm = 2, pearson.cor = 0.8)
+candidateRelocatedProteins(
+  sampleCls1,
+  s1PSM,
+  s1Quant,
+  sampleCls2,
+  s2PSM,
+  s2Quant,
+  annotation = FALSE,
+  min.psm = 2,
+  pearson.cor = 0.8
+)
 }
 \arguments{
 \item{sampleCls1}{data.frame; merged classification,

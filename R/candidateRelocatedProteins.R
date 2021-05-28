@@ -84,7 +84,7 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
 
         print(ggplot(f.df,
                 aes(x = log2(f.df$Min.PSMs),
-                    y = f.df$Pearson.Corr,
+                    y = Pearson.Corr,
                     color = Relocalization))+
             geom_point(size = 2) +
             scale_colour_manual(values=c("Black","steelblue1")) +
@@ -122,7 +122,7 @@ candidateRelocatedProteins <- function(sampleCls1, s1PSM,s1Quant, sampleCls2,
         Relocalization <- annot.df$Relocated
         print(ggplot(annot.df,
                     aes(log2(annot.df$Min.PSMs),
-                        annot.df$Pearson.Corr,
+                        Pearson.Corr,
                         label = annot.df$Label,
                         color = Relocalization)) +
                 geom_point(size = 2) +

@@ -4,8 +4,7 @@
 \alias{replacePrediction}
 \title{Replace compartment predictions to neighborhood predictions}
 \usage{
-replacePrediction(df, column = c("svm.pred.all", "Observation",
-  "svm.pred"))
+replacePrediction(df, column = c("svm.pred.all", "Observation", "svm.pred"))
 }
 \arguments{
 \item{df}{data.frame; all predictions at the compartment level and

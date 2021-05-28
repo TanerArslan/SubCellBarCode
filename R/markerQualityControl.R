@@ -40,7 +40,7 @@ markerQualityControl <- function(coveredProteins, protein.data){
     replicate.df <- data.frame(Protein = names(cor.reps.pearson),
                                 Correlation = cor.reps.pearson)
 
-    p1 <- ggplot(replicate.df, aes(x = replicate.df$Correlation)) +
+    p1 <- ggplot(replicate.df, aes(x = Correlation)) +
         geom_density(alpha = .7, fill = "deepskyblue") +
         theme_minimal() +
         theme(text = element_text(size = 14),
@@ -105,7 +105,7 @@ markerQualityControl <- function(coveredProteins, protein.data){
     cols <- SubCellBarCode::markerProteins[prot.names,][8]
     Color <- cols$Colour
 
-    p2 <- ggplot(df, aes(x = df$Pearson, y = df$Spearman)) +
+    p2 <- ggplot(df, aes(x = Pearson, y = Spearman)) +
         geom_point(colour = Color, size = 2) +
         geom_hline(yintercept = 0.6, linetype="dashed", color = "red") +
         geom_vline(xintercept = 0.8, linetype="dashed", color = "red") +

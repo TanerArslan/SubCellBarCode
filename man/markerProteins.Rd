@@ -4,7 +4,9 @@
 \name{markerProteins}
 \alias{markerProteins}
 \title{Marker Proteins Source}
-\format{A data frame of 3365 proteins as rows and 13 columns headers.}
+\format{
+A data frame of 3365 proteins as rows and 13 columns headers.
+}
 \usage{
 markerProteins
 }

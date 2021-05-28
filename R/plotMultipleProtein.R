@@ -65,9 +65,9 @@ plotMultipleProtein <- function(sampleClassification, proteinList){
 
     #bar plot of the neighborhood level classifications
     p1 <- ggplot(neigh.summay.df,
-                aes(x = neigh.summay.df$Neighborhood,
-                    y = neigh.summay.df$Count,
-                    fill = neigh.summay.df$Neighborhood)) +
+                aes(x = Neighborhood,
+                    y = Count,
+                    fill = Neighborhood)) +
             geom_bar(stat = "identity", position = "stack", width = 1) +
             scale_fill_manual(values = c(neigh.cols)) +
             labs(title = " ",
@@ -105,9 +105,9 @@ plotMultipleProtein <- function(sampleClassification, proteinList){
 
     #bar plot of the compartment level classifications
     p2 <- ggplot(comp.summay.df,
-                aes(x = comp.summay.df$Compartment,
-                    y = comp.summay.df$Count,
-                    fill = comp.summay.df$Compartment)) +
+                aes(x = Compartment,
+                    y = Count,
+                    fill = Compartment)) +
                 geom_bar(stat = "identity", position = "stack", width = 1) +
                 scale_fill_manual(values = c(comp.cols)) +
                 labs(title = " ",

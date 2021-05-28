@@ -4,9 +4,11 @@
 \name{hcc827GEFClass}
 \alias{hcc827GEFClass}
 \title{Gefitinib treated HCC827 Cell Line Classification}
-\format{A data frame where 10398 protein gene-centric ids and corresponding
+\format{
+A data frame where 10398 protein gene-centric ids and corresponding
 compartment and neighborhood classification alon with
-classification probabilities.}
+classification probabilities.
+}
 \usage{
 hcc827GEFClass
 }
