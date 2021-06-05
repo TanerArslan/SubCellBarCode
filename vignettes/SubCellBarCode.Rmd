@@ -74,7 +74,7 @@ The markerProteins `data.frame` contain protein names (gene symbol),
 associated subcellular localization (compartment), color code for 
 the compartment and the median normalized fractionation
 profile (log2) based on five different human cell lines 
-(NCI-H322, HCC827, MCF7, A431 and U251) here called the 
+(NCI-H322, HCC827, MCF7, A431and U251) here called the 
 “5CL marker profile”.
 
 
@@ -370,7 +370,7 @@ cell *vs* normal cell, cell state A *vs* cell state B, *etc*.
 As example, we compared untreated and gefitinib (EGFR inhibitor) 
 treated HCC827 cells (for details, see Orre et al.). 
 
-## Identify differentially localizing proteins
+## Plot differentially localizing proteins
 Neighborhood classifications  for condition 1 (untreated) and 
 condition 2 (gefitinib) is first done separately, and 
 classifications for overlapping proteins are then vizualized by a 
@@ -458,7 +458,7 @@ candidate2.df <- candidateRelocatedProteins(sampleCls1 = cls.df,
                                 pearson.cor = 0.05) 
 ```
 
-#Peptide/Exon/Transcript centric or PTM regulated localization
+# Peptide/Exon/Transcript centric or PTM regulated localization
 Our main analysis is based on gene-centric. However, based on the analytical
 depth of the data, peptide/exon/transcript centric classifications can
 be performed. Moreover, this approach is also applicable for
